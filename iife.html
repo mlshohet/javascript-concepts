@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<h1>IIFE DEMO</h1>
+	<script type="text/javascript">
+		var script1 = (function () {
+			function func2() {
+				return 'this is invoked in local namespace and returns a function as property'
+			}
+			return {
+				func2: func2
+			}
+		})()
+	</script>
+	<script>
+		var x = 1000
+		function func() {
+			return 'this is polluting global scope'
+		}
+	</script>
+</body>
+</html>
