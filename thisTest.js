@@ -31,7 +31,7 @@ const obj = {
 
 // use ES6 arrow functions to lexically bind functions to objects
 
-const obj = {
+const obj2 = {
 	name: 'Kurt',
 	sing() {
 		console.log(this);
@@ -46,7 +46,7 @@ const obj = {
 
 // bind keyword
 
-const obj = {
+const obj3 = {
 	name: 'Kurt',
 	sing() {
 		console.log(this);
@@ -60,11 +60,11 @@ const obj = {
 
 // invocation of the bound func1:
 
-obj.sing()();
+obj3.sing()();
 
 // Store 'this' object in a reference:
 
-const obj = {
+const obj4 = {
 	name: 'Kurt',
 	sing() {
 		// the calling object is stored
@@ -78,6 +78,18 @@ const obj = {
 	}
 }
 
+
+const character = {
+  name: 'Simon',
+  getCharacter() {
+  	return this.name
+  }
+};
+
+const giveMeTheCharacterNOW = character.getCharacter.bind(character);
+ 
+//How Would you fix this?
+console.log('?', giveMeTheCharacterNOW()); //this should return 'Simon,' but doesn't
 
 
 
