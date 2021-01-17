@@ -7,67 +7,48 @@ const user = {
 	purchases: []
 }
 
-const tuba = {
-	name: 'Tuba',
-	price: 250
+//Composing functions
+const compose = (f,g) => (...args) => f(g(...args));
+
+const updatedUser = purchaseItem(
+	emptyCart,
+	buyItem,
+	applyTaxToItem,
+	addItemToCart
+)(user, { name: 'tuba', price: 250 });
+
+console.log(updatedUser);
+
+function purchaseItem(...fns) {
+	return fns.reduce(compose)
 }
 
-const squirrelFood = {
-	name: 'Squirrel Food',
-	price: 15
+function addItemToCart(user, item) {
+	const updatedCart = user.cart.concat(item);
+	return Object.assign({}, user, { cart: updatedCart });
 }
 
-const notebook = {
-	name: 'Notebook',
-	price: 5
-}
-
-const addItemToCart = (user, item) => {
-	const updatedUser = clone(user);
-	updatedUser.cart.push(item);
-	return updatedUser;
-}
-
-const addTaxToItem = (user, item) => {
-	const updatedUser = {...user};
-	updatedUser.cart.map(cartItem => {
-		if (cartItem === item) {
-			item.price = item.price + item.price * 0.03;
+function applyTaxToItem(user) {
+	const {cart} = user;
+	const taxRate = 1.3;
+	const updatedCart = cart.map(item => {
+		return {
+			name: item.name,
+			price: item.price+taxRate
 		}
 	})
-	return updatedUser;
+	return Object.assign({}, user, { cart: updatedCart });
 }
 
-const buyItem = (user, item) => {
-	user.cart.map((cartItem, i) => {
-		if (cartItem === item) {
-			const purchase = user.cart.splice(i,1)[0];
-			user.purchases.push(purchase);
-		}
-	});
-	return user;
+function buyItem(user) {
+	return Object.assign({}, user, { purchases: user.cart });
 }
 
-const emptyCart = user => {
-	user.cart = [];
-	return user;
+function emptyCart(user) {
+	return Object.assign({}, user, { cart: [] });
 }
 
-addItemToCart(user, tuba);
-addItemToCart(user, squirrelFood);
-addItemToCart(user, notebook);
-console.log(user);
-console.log(user.cart);
-addTaxToItem(user, tuba);
-console.log(`${tuba.name}'s price after tax is ${tuba.price}`);
-buyItem(user, tuba);
-console.log("Buying");
-console.log(user.cart);
-console.log(user.purchases);
 
-console.log("Emptying cart");
-emptyCart(user);
-console.log(user.cart);
 
 
 
