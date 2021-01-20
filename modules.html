@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Modules</title>
+</head>
+<body>
+	<h1>HOW TO DISAPPEAR COMPLETELY</h1>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script type="module">
+		import fight from './modules2.js';
+		console.log(fight('Ron', 'Hermione'))
+	</script>
+	<script>
+		var globalSecret = 'secret'
+		var fight = 'this is overwritten'
+	</script>
+	<script>
+		var script2 = (function($, gs) {
+			$('h1').click(function() {
+				$('h1').hide();
+			})
+		})(jQuery, globalSecret)
+	</script>
+</body>
+</html>
